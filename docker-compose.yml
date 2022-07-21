@@ -1,0 +1,19 @@
+version: "3.9"
+services:
+  persons-java-api:
+    container_name: persons-java-api
+    build: .
+    ports:
+      - "8081:8081"
+    environment:
+      - spring.datasource.url=jdbc:postgresql://persons-db-service:5432/${DB_NAME}
+    depends_on:
+      - persons-db-service
+
+  persons-db-service:
+    container_name: persons-db-service
+    image: postgres:${POSTGRES_VERSION}
+    volumes:
+      - ./db:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
